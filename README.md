@@ -25,3 +25,40 @@ Este projeto contém os seguintes entregáveis:
    - Caso exista algum fator aleatório no algoritmo, incluir a média do valor da solução, do tempo de execução e da métrica GAP de no mínimo 10 execuções para cada instância. Observação: Caso decida implementar a meta-heurística, é necessário adicionar uma coluna de resultados para ela na tabela. 
 6. Todas as implementações devem vir acompanhadas de um arquivo makefile para a compilação. Tal arquivo deve ser preparado de forma a funcionar em sistemas UNIX.
 7. Criar uma pasta contendo os arquivos de saída gerados durante os testes com cada instância. Favor incluir somente os resultados dos testes finais, com a versão a ser entregue. IMPORTANTE: O projeto deve ser entregue até às 23:59 do dia 29 de outubro de 2023 (Não haverá adiamento do prazo de entrega). Devem ser enviados via SIGAA, em um arquivo compactado, o código-fonte do projeto, o arquivo makefile, os arquivos de saída contendo as soluções encontradas, e um relatório em pdf contendo o nome dos integrantes do grupo e a tabela de resultados computacionais. Note que é necessário somente uma entrega por grupo e não serão aceitos envios por e-mail ou fora do prazo.
+
+## Soluções de Referência
+
+Valores de referência (calcular o gap em função desses valores)
+
+n9k5_A = 428<br>
+n9k5_B = 506<br>
+n9k5_C = 559<br>
+n9k5_D = 408<br>
+n14k5_A = 471<br>
+n14k5_B = 565<br>
+n14k5_C = 569<br>
+n14k5_D = 471<br>
+n22k3_A = 605<br>
+n22k3_B = 777<br>
+n22k3_C = 777<br>
+n22k3_D = 605<br>
+n31k5_A = 650<br>
+n31k5_B = 933<br>
+n31k5_C = 939<br>
+n31k5_D = 656<br>
+n43k6_A = 801<br>
+n43k6_B = 1203<br>
+n43k6_C = 1208<br>
+n43k6_D = 802<br>
+n64k9_A = 934<br>
+n64k9_B = 1503<br>
+n64k9_C = 1510<br>
+n64k9_D = 932<br>
+n120k7_A = 1029<br>
+n120k7_B = 2052<br>
+n120k7_C = 2040<br>
+n120k7_D = 1046<br>
+n199k17_A = 1672<br>
+n199k17_B = 3302<br>
+n199k17_C = 3301<br>
+n199k17_D = 1672<br>
