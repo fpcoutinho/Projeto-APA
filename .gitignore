@@ -1,4 +1,5 @@
 .vscode/
+*_resultados.txt
 
 # Compiled Object files
 *.o

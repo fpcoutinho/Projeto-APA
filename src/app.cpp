@@ -192,7 +192,7 @@ int main()
   std::cout << "Digite o nome do arquivo (sem o caminho, apenas o nome do arquivo): ";
   std::cin >> nomeArquivo;*/
 
-  std::string nomeArquivo = "n9k5_A";
+  std::string nomeArquivo = "n9k5_B";
   std::string caminhoArquivo = "../data/instancias/" + nomeArquivo + ".txt";
 
   try
