@@ -1,4 +1,7 @@
 #include "utils/fileops.cpp"
+#include "core/greedy.cpp"
+#include "core/vnd.cpp"
+#include "core/neighborhood.cpp"
 
 int main()
 {
