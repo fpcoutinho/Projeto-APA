@@ -1,6 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <stdexcept>
+
+struct FileReadError : public std::runtime_error
+{
+  FileReadError(const std::string &message) : std::runtime_error(message) {}
+};
 
 struct Instancia
 {
@@ -22,14 +28,12 @@ Instancia lerArquivo(const std::string &filepath)
 
   if (!file.is_open())
   {
-    std::cerr << "Erro ao abrir arquivo: " << std::endl;
-    return instancia; // Retorna uma struct vazia em caso de erro
+    throw FileReadError("Erro ao abrir arquivo: " + filepath);
   }
 
   if (!(file >> instancia.n >> instancia.k >> instancia.Q >> instancia.L >> instancia.r))
   {
-    std::cerr << "Erro ao ler do arquivo: " << std::endl;
-    return instancia;
+    throw FileReadError("Erro ao ler do arquivo: " + filepath);
   }
 
   instancia.d.clear();
@@ -42,8 +46,7 @@ Instancia lerArquivo(const std::string &filepath)
     }
     else
     {
-      std::cerr << "Erro ao ler linha 7 do arquivo: " << std::endl;
-      return instancia;
+      throw FileReadError("Erro ao ler linha 7 do arquivo: " + filepath);
     }
   }
 
@@ -56,8 +59,7 @@ Instancia lerArquivo(const std::string &filepath)
     }
     else
     {
-      std::cerr << "Erro ao ler linha 9 do arquivo: " << std::endl;
-      return instancia;
+      throw FileReadError("Erro ao ler linha 9 do arquivo: " + filepath);
     }
   }
 
@@ -76,8 +78,7 @@ Instancia lerArquivo(const std::string &filepath)
       }
       else
       {
-        std::cerr << "Erro ao ler linha " << (i + 1) << " da matriz c do arquivo: " << std::endl;
-        return instancia;
+        throw FileReadError("Erro ao ler linha " + std::to_string(i + 1) + " da matriz c do arquivo: " + filepath);
       }
     }
     instancia.c.push_back(row);
@@ -86,6 +87,7 @@ Instancia lerArquivo(const std::string &filepath)
   return instancia;
 }
 
+// só é necessário para checagem
 void imprimirValores(const Instancia &instancia)
 {
   std::cout << "Valores lidos do arquivo:\n"
@@ -137,19 +139,16 @@ int main()
   std::cin >> nomeArquivo;*/
 
   std::string nomeArquivo = "n9k5_A";
-
   std::string caminhoArquivo = "../data/instancias/" + nomeArquivo + ".txt";
 
-  Instancia instancia = lerArquivo(caminhoArquivo);
-
-  if (instancia.n == 0)
+  try
   {
-    std::cerr << "Falha ao ler o arquivo." << std::endl;
-    return 1;
-  }
-  else
-  {
+    Instancia instancia = lerArquivo(caminhoArquivo);
     imprimirValores(instancia);
+  }
+  catch (FileReadError &e)
+  {
+    std::cout << e.what() << std::endl;
   }
 
   return 0;
