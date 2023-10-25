@@ -1,66 +1,74 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <vector>
 
-bool lerArquivo(const std::string &filename, int &n, int &k, int &Q, int &L, int &r, std::vector<int> &d, std::vector<int> &p, std::vector<std::vector<int>> &c)
+struct Instancia
 {
-  std::ifstream file(filename);
+  int n;
+  int k;
+  int Q;
+  int L;
+  int r;
+  std::vector<int> d;
+  std::vector<int> p;
+  std::vector<std::vector<int>> c;
+};
+
+Instancia lerArquivo(const std::string &filepath)
+{
+  Instancia instancia;
+
+  std::ifstream file(filepath);
 
   if (!file.is_open())
   {
-    std::cerr << "Erro ao abrir arquivo: " << filename << std::endl;
-    return false;
+    std::cerr << "Erro ao abrir arquivo: " << std::endl;
+    return instancia; // Retorna uma struct vazia em caso de erro
   }
 
-  // Read the first 5 lines and assign values to variables
-  if (!(file >> n >> k >> Q >> L >> r))
+  if (!(file >> instancia.n >> instancia.k >> instancia.Q >> instancia.L >> instancia.r))
   {
-    std::cerr << "Erro ao ler do arquivo: " << filename << std::endl;
-    return false;
+    std::cerr << "Erro ao ler do arquivo: " << std::endl;
+    return instancia;
   }
 
-  // Read line 7 into vector d
-  d.clear();
+  instancia.d.clear();
   int value;
-  for (int i = 0; i < n; ++i)
+  for (int i = 0; i < instancia.n; ++i)
   {
     if (file >> value)
     {
-      d.push_back(value);
+      instancia.d.push_back(value);
     }
     else
     {
-      std::cerr << "Erro ao ler linha 7 do arquivo: " << filename << std::endl;
-      return false;
+      std::cerr << "Erro ao ler linha 7 do arquivo: " << std::endl;
+      return instancia;
     }
   }
 
-  // Read line 9 into vector p
-  p.clear();
-  for (int i = 0; i < n; ++i)
+  instancia.p.clear();
+  for (int i = 0; i < instancia.n; ++i)
   {
     if (file >> value)
     {
-      p.push_back(value);
+      instancia.p.push_back(value);
     }
     else
     {
-      std::cerr << "Erro ao ler linha 9 do arquivo: " << filename << std::endl;
-      return false;
+      std::cerr << "Erro ao ler linha 9 do arquivo: " << std::endl;
+      return instancia;
     }
   }
 
-  // Clear the next line
   std::string line;
   std::getline(file, line);
 
-  // Read the next (n+1) lines as an (n+1)x(n+1) matrix (renamed to c)
-  c.clear();
-  for (int i = 0; i < n + 1; ++i)
+  instancia.c.clear();
+  for (int i = 0; i < instancia.n + 1; ++i)
   {
     std::vector<int> row;
-    for (int j = 0; j < n + 1; ++j)
+    for (int j = 0; j < instancia.n + 1; ++j)
     {
       if (file >> value)
       {
@@ -68,31 +76,31 @@ bool lerArquivo(const std::string &filename, int &n, int &k, int &Q, int &L, int
       }
       else
       {
-        std::cerr << "Erro ao ler linha " << (i + 1) << " da matriz c do arquivo: " << filename << std::endl;
-        return false;
+        std::cerr << "Erro ao ler linha " << (i + 1) << " da matriz c do arquivo: " << std::endl;
+        return instancia;
       }
     }
-    c.push_back(row);
+    instancia.c.push_back(row);
   }
 
-  return true;
+  return instancia;
 }
 
-void imprimirValores(const int n, const int k, const int Q, const int L, const int r, const std::vector<int> &d, const std::vector<int> &p, const std::vector<std::vector<int>> &c)
+void imprimirValores(const Instancia &instancia)
 {
   std::cout << "Valores lidos do arquivo:\n"
             << std::endl;
-  std::cout << "n: " << n << std::endl;
-  std::cout << "k: " << k << std::endl;
-  std::cout << "Q: " << Q << std::endl;
-  std::cout << "L: " << L << std::endl;
-  std::cout << "r: " << r << std::endl;
+  std::cout << "n: " << instancia.n << std::endl;
+  std::cout << "k: " << instancia.k << std::endl;
+  std::cout << "Q: " << instancia.Q << std::endl;
+  std::cout << "L: " << instancia.L << std::endl;
+  std::cout << "r: " << instancia.r << std::endl;
 
   std::cout << "\nVetor d: ";
-  for (int i = 0; i < d.size(); ++i)
+  for (int i = 0; i < instancia.d.size(); ++i)
   {
-    std::cout << d[i];
-    if (i < d.size() - 1)
+    std::cout << instancia.d[i];
+    if (i < instancia.d.size() - 1)
     {
       std::cout << "   ";
     }
@@ -100,10 +108,10 @@ void imprimirValores(const int n, const int k, const int Q, const int L, const i
   std::cout << std::endl;
 
   std::cout << "\nVetor p: ";
-  for (int i = 0; i < p.size(); ++i)
+  for (int i = 0; i < instancia.p.size(); ++i)
   {
-    std::cout << p[i];
-    if (i < p.size() - 1)
+    std::cout << instancia.p[i];
+    if (i < instancia.p.size() - 1)
     {
       std::cout << "   ";
     }
@@ -111,7 +119,7 @@ void imprimirValores(const int n, const int k, const int Q, const int L, const i
   std::cout << std::endl;
 
   std::cout << "\nMatriz c:" << std::endl;
-  for (const auto &linha : c)
+  for (const auto &linha : instancia.c)
   {
     for (int valor : linha)
     {
@@ -132,17 +140,16 @@ int main()
 
   std::string caminhoArquivo = "../data/instancias/" + nomeArquivo + ".txt";
 
-  int n, k, Q, L, r;
-  std::vector<int> d, p;
-  std::vector<std::vector<int>> c;
+  Instancia instancia = lerArquivo(caminhoArquivo);
 
-  if (lerArquivo(caminhoArquivo, n, k, Q, L, r, d, p, c))
+  if (instancia.n == 0)
   {
-    imprimirValores(n, k, Q, L, r, d, p, c);
+    std::cerr << "Falha ao ler o arquivo." << std::endl;
+    return 1;
   }
   else
   {
-    std::cerr << "Falha ao ler os valores do arquivo." << std::endl;
+    imprimirValores(instancia);
   }
 
   return 0;
