@@ -10,14 +10,15 @@ int main()
   std::cout << "Digite o nome do arquivo (sem o caminho, apenas o nome do arquivo): ";
   std::cin >> nomeArquivo;*/
 
-  std::string nomeArquivo = "n9k5_A";
+  std::string nomeArquivo = "test";
   std::string caminhoArquivo = "../data/instancias/" + nomeArquivo + ".txt";
 
   try
   {
     Instancia instancia = lerArquivo(caminhoArquivo);
+    Solucao solucao = greedy(instancia);
+    printSolucao(solucao);
     imprimirValores(instancia);
-    salvarDados(nomeArquivo, instancia);
   }
   catch (FileReadError &e)
   {
