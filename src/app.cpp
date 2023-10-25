@@ -98,7 +98,7 @@ void imprimirValores(const Instancia &instancia)
   std::cout << "L: " << instancia.L << std::endl;
   std::cout << "r: " << instancia.r << std::endl;
 
-  std::cout << "\nVetor d: ";
+  std::cout << "\nd: ";
   for (int i = 0; i < instancia.d.size(); ++i)
   {
     std::cout << instancia.d[i];
@@ -109,7 +109,7 @@ void imprimirValores(const Instancia &instancia)
   }
   std::cout << std::endl;
 
-  std::cout << "\nVetor p: ";
+  std::cout << "\np: ";
   for (int i = 0; i < instancia.p.size(); ++i)
   {
     std::cout << instancia.p[i];
@@ -120,7 +120,7 @@ void imprimirValores(const Instancia &instancia)
   }
   std::cout << std::endl;
 
-  std::cout << "\nMatriz c:" << std::endl;
+  std::cout << "\nc:" << std::endl;
   for (const auto &linha : instancia.c)
   {
     for (int valor : linha)
@@ -129,6 +129,60 @@ void imprimirValores(const Instancia &instancia)
     }
     std::cout << std::endl;
   }
+}
+
+void salvarDados(const std::string &filename, const Instancia &instancia)
+{
+  std::string filepath = "../data/resultados/" + filename + "_resultados.txt";
+  std::ofstream arquivo(filepath);
+
+  if (!arquivo.is_open())
+  {
+    throw std::runtime_error("Erro ao abrir arquivo para escrita");
+  }
+
+  arquivo << "Valores da instância " + filename + "\n"
+          << std::endl;
+  arquivo << "n: " << instancia.n << std::endl;
+  arquivo << "k: " << instancia.k << std::endl;
+  arquivo << "Q: " << instancia.Q << std::endl;
+  arquivo << "L: " << instancia.L << std::endl;
+  arquivo << "r: " << instancia.r << std::endl;
+
+  arquivo << "\nd: ";
+  for (int i = 0; i < instancia.d.size(); ++i)
+  {
+    arquivo << instancia.d[i];
+    if (i < instancia.d.size() - 1)
+    {
+      arquivo << "   ";
+    }
+  }
+  arquivo << std::endl;
+
+  arquivo << "\np: ";
+  for (int i = 0; i < instancia.p.size(); ++i)
+  {
+    arquivo << instancia.p[i];
+    if (i < instancia.p.size() - 1)
+    {
+      arquivo << "   ";
+    }
+  }
+  arquivo << std::endl;
+
+  arquivo << "\nc:\n"
+          << std::endl;
+  for (const auto &linha : instancia.c)
+  {
+    for (int valor : linha)
+    {
+      arquivo << valor << "   ";
+    }
+    arquivo << std::endl;
+  }
+
+  arquivo.close();
 }
 
 int main()
@@ -145,6 +199,7 @@ int main()
   {
     Instancia instancia = lerArquivo(caminhoArquivo);
     imprimirValores(instancia);
+    salvarDados(nomeArquivo, instancia);
   }
   catch (FileReadError &e)
   {
